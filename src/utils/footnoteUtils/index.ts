@@ -54,7 +54,7 @@ export function processFootnotes(text: string): string {
           // This prevents duplication when the original markdown includes both
           // the heading and the footnote definitions
           const nextHeadingMatch = result.substring(footnoteStart).match(/(?:#{1,6}\s+)/);
-          const endOfSection = nextHeadingMatch 
+          const endOfSection = nextHeadingMatch && nextHeadingMatch.index !== undefined
             ? footnoteStart + nextHeadingMatch.index 
             : result.length;
             

@@ -8,7 +8,7 @@ import {
   extractTitle,
   renderMarkdown
 } from '@/utils/markdownUtils/index';
-import { FiUpload, FiExternalLink } from 'react-icons/fi';
+import { FiUpload } from 'react-icons/fi';
 import { RiMagicFill } from 'react-icons/ri';
 import { FaPersonRunning, FaLaptopCode } from 'react-icons/fa6';
 

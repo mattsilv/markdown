@@ -27,7 +27,7 @@ export function configureCustomLinkRenderer() {
             text: url
           };
         }
-        return false;
+        return undefined;
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       renderer(token: any) {

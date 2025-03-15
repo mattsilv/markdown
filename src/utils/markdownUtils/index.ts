@@ -1,7 +1,7 @@
 'use client';
 
 // Export interfaces
-export { MarkdownOptions } from './types';
+export type { MarkdownOptions } from './types';
 
 // Export components
 export { preprocessMarkdown } from './components/preprocessing';
