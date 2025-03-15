@@ -12,17 +12,21 @@
     "dompurify": "^3.2.4",
     "marked": "^15.0.7",
     "next": "15.2.2",
+    "pdfmake": "^0.2.18",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "remark-truncate-links": "^1.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
+    "puppeteer": "^24.4.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -12,8 +12,14 @@ const nextConfig: NextConfig = {
     
     return config;
   },
+  // Fix hydration errors from Grammarly extension
+  reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
+  },
   experimental: {
-    turbo: true,
+    // Prevent inclusion of external attributes in server-rendered HTML
+    optimizeServerReact: true,
   },
 };
 

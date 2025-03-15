@@ -31,8 +31,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Explicitly setting data-theme to light to avoid dark mode
   return (
-    <html lang="en">
+    <html lang="en" className="light" suppressHydrationWarning>
       <head>
         <meta charSet="UTF-8" />
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -40,7 +41,10 @@ export default function RootLayout({
         <meta httpEquiv="Expires" content="0" />
         <meta httpEquiv="Cache-Control" content="max-age=0" />
       </head>
-      <body className={`${merriweather.variable} ${sourceSans.variable} ${sourceCode.variable} antialiased min-h-screen`}>
+      <body 
+        className={`${merriweather.variable} ${sourceSans.variable} ${sourceCode.variable} antialiased min-h-screen`}
+        suppressHydrationWarning
+      >
         {children}
         <footer className="py-4 text-center text-sm text-gray-600 border-t border-gray-200 mt-8">
           <p>An open source app by <a href="https://www.silv.app" target="_blank" rel="noopener" className="text-blue-600">silv.app</a></p>

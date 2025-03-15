@@ -20,9 +20,9 @@ export function generateFootnoteSection(
   );
 
   // IMPORTANT: Use class="footnotes report-content-footnotes works-cited" for proper styling
-  // Also add inline style to ensure proper font size
+  // Don't include another HR tag if we're using an existing Works Cited section
   let html =
-    '\n\n<div class="footnotes report-content-footnotes works-cited" style="font-size: 0.8em !important;">\n<hr>\n<ol class="footnote-list">';
+    '\n\n<div class="footnotes report-content-footnotes works-cited">\n<hr>\n<ol class="footnote-list">';
 
   // Track which IDs have been rendered to avoid duplicates
   const renderedIds = new Set<string>();

@@ -2,7 +2,12 @@
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import OptionsPanel from './OptionsPanel';
-import { preprocessMarkdown, configureMarked, extractTitle, renderMarkdown } from '@/utils/markdownUtils';
+import { 
+  preprocessMarkdown,
+  configureMarked,
+  extractTitle,
+  renderMarkdown
+} from '@/utils/markdownUtils/index';
 
 interface EditorViewProps {
   onGenerateReport: (title: string, htmlContent: string) => void;
@@ -47,7 +52,7 @@ export default function EditorView({ onGenerateReport }: EditorViewProps) {
     }
   }, []);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!markdownText.trim()) {
@@ -63,40 +68,31 @@ export default function EditorView({ onGenerateReport }: EditorViewProps) {
     setIsLoading(true);
     
     try {
-      // Process asynchronously to avoid blocking the UI
-      setTimeout(() => {
-        try {
-          // Pre-process markdown
-          const processedMarkdown = preprocessMarkdown(markdownText, {
-            fixEscapes,
-            processFootnotes,
-          });
-          
-          // Configure marked options
-          const markedOptions = configureMarked({
-            smartLists,
-          });
-          
-          // Extract title
-          const { title, modifiedMarkdown } = extractTitle(processedMarkdown);
-          
-          // Render the markdown
-          const renderedHtml = renderMarkdown(modifiedMarkdown, markedOptions);
-          
-          // Switch to report view
-          onGenerateReport(title, renderedHtml);
-          
-          // End loading state
-          setIsLoading(false);
-        } catch (error) {
-          console.error("Error rendering markdown:", error);
-          setError(`Error rendering markdown: ${error instanceof Error ? error.message : String(error)}`);
-          setIsLoading(false);
-        }
-      }, 50);
+      // Pre-process markdown
+      const processedMarkdown = preprocessMarkdown(markdownText, {
+        fixEscapes,
+        processFootnotes,
+      });
+      
+      // Configure marked options
+      const markedOptions = configureMarked({
+        smartLists,
+      });
+      
+      // Extract title
+      const { title, modifiedMarkdown } = extractTitle(processedMarkdown);
+      
+      // Render the markdown (now awaiting the Promise)
+      const renderedHtml = await renderMarkdown(modifiedMarkdown, markedOptions);
+      
+      // Switch to report view
+      onGenerateReport(title, renderedHtml);
+      
+      // End loading state
+      setIsLoading(false);
     } catch (error) {
-      console.error("Error in submission handler:", error);
-      setError(`An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`);
+      console.error("Error rendering markdown:", error);
+      setError(`Error rendering markdown: ${error instanceof Error ? error.message : String(error)}`);
       setIsLoading(false);
     }
   };

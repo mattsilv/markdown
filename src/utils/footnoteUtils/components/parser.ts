@@ -15,8 +15,10 @@ export function parseReferences(text: string): ReferenceResult {
   let footnoteRefIndex = 1; // Create unique reference IDs for tracking
 
   // Simple standard markdown footnote reference pattern
+  // IMPORTANT: We need to exclude footnote definitions that look like [^1]: content
+  // by making sure the reference isn't followed by a colon
   const processed = text.replace(
-    /\[\^(\d+|[a-zA-Z0-9_-]+)\]/g,
+    /\[\^(\d+|[a-zA-Z0-9_-]+)\](?!:)/g,  // Added (?!:) to exclude definitions
     (match, refId) => {
       // Keep track of all references to each footnote ID
       if (!footnoteRefs.has(refId)) {
@@ -60,8 +62,9 @@ export function extractDefinitions(text: string): DefinitionResult {
   console.log("Starting footnote definition extraction");
 
   // First attempt: Try regex approach to find Works Cited section and standard footnote definitions
+  // Account for bold/italic formatting around the heading text with optional ** markers
   const worksCitedSectionMatch = text.match(
-    /(?:##\s+|###\s+|####\s+)(?:Works cited|References|Footnotes|Notes|Bibliography).*?\n([\s\S]+)$/i
+    /(?:##\s+|###\s+|####\s+)(?:\*\*)?(?:Works cited|Works Cited|References|Footnotes|Notes|Bibliography)(?:\*\*)?.*?\n([\s\S]+)$/i
   );
 
   if (worksCitedSectionMatch) {
@@ -214,9 +217,9 @@ export function extractDefinitions(text: string): DefinitionResult {
     );
   }
 
-  // Check if we have a Works Cited section
+  // Check if we have a Works Cited section - account for bold/italic formatting in heading
   const worksCitedHeadingMatch = finalProcessed.match(
-    /(?:\n|^)(##\s+|###\s+|####\s+)(?:Works cited|References|Footnotes|Notes|Bibliography)/i
+    /(?:\n|^)(##\s+|###\s+|####\s+)(?:\*\*)?(?:Works cited|Works Cited|References|Footnotes|Notes|Bibliography)(?:\*\*)?/i
   );
 
   if (worksCitedHeadingMatch) {
@@ -225,6 +228,7 @@ export function extractDefinitions(text: string): DefinitionResult {
     );
   } else {
     // If we have footnotes but no Works Cited section, let's add one
+    // This will be used when we don't have an existing heading in the document
     if (footnotes.size > 0) {
       console.log(
         "No Works Cited section found, but have footnotes - adding heading"

@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# screenshots and temporary files
+*.png
+*.jpg
+*.jpeg
+*.gif
+/tmp/
+/.codesight/
+
+# Package manager files
+pnpm-lock.yaml

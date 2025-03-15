@@ -115,11 +115,12 @@ function calculateAndSetRowHeights(table: HTMLTableElement): void {
 
   // Apply consistent height to all rows
   rows.forEach((row) => {
-    row.style.minHeight = minRowHeight;
+    // Correctly type the row as HTMLTableRowElement
+    (row as HTMLTableRowElement).style.minHeight = minRowHeight;
     // Ensure all cells have the same min-height
     const cells = row.querySelectorAll("td");
     cells.forEach((cell) => {
-      cell.style.minHeight = minRowHeight;
+      (cell as HTMLTableCellElement).style.minHeight = minRowHeight;
     });
   });
 }
