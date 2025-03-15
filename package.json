@@ -8,14 +8,19 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "check-suspense": "node scripts/check-suspense.js",
     "prepare": "husky",
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "bash -c 'npm run typecheck'"
+      "bash -c 'npm run typecheck'",
+      "bash -c 'npm run check-suspense'"
     ]
+  },
+  "engines": {
+    "node": ">=18.17.0"
   },
   "dependencies": {
     "dompurify": "^3.2.4",
@@ -29,13 +34,14 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/eslint-plugin-next": "^15.2.2",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.2.2",
+    "eslint-config-next": "^15.2.2",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "puppeteer": "^24.4.0",
