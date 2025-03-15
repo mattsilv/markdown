@@ -60,7 +60,7 @@ export default function Home() {
       ) : (
         <EditorView onGenerateReport={handleViewReport} sampleDocumentLink={
           <Link 
-            href="/samples/config" 
+            href="/samples/kaizen?fixEscapes=1&smartLists=1&processFootnotes=1" 
             className="text-blue-600 hover:text-blue-700 transition-colors duration-300 ml-4 self-center flex items-center gap-1"
           >
             <FiExternalLink className="inline" /> View Sample Document

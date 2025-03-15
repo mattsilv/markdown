@@ -61,9 +61,6 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
-        <footer className="py-4 text-center text-sm text-gray-600 border-t border-gray-200 mt-8">
-          <p>An open source app by <a href="https://www.silv.app" target="_blank" rel="noopener" className="text-blue-600">silv.app</a></p>
-        </footer>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import OptionsPanel from './OptionsPanel';
+import Footer from './Footer';
 import { 
   preprocessMarkdown,
   configureMarked,
@@ -10,7 +11,6 @@ import {
 } from '@/utils/markdownUtils/index';
 import { FiUpload } from 'react-icons/fi';
 import { RiMagicFill } from 'react-icons/ri';
-import { FaPersonRunning, FaLaptopCode } from 'react-icons/fa6';
 
 interface EditorViewProps {
   onGenerateReport: (title: string, htmlContent: string) => void;
@@ -231,9 +231,7 @@ export default function EditorView({ onGenerateReport, sampleDocumentLink }: Edi
           )}
         </button>
       </form>
-      <div className="text-center text-sm text-gray-500 mt-8 mb-4 flex items-center justify-center gap-1">
-        A micro app vibe coded <FaPersonRunning className="inline text-blue-400 text-lg dance-icon" /> <FaLaptopCode className="inline text-blue-500 text-lg" /> by <a href="https://www.silv.app" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">silv.app</a>
-      </div>
+      <Footer />
     </div>
   );
 }
