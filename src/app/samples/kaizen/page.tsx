@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ReportView from '../../components/ReportView';
 import {
@@ -10,7 +10,8 @@ import {
   renderMarkdown
 } from '@/utils/markdownUtils/index';
 
-export default function KaizenPage() {
+// Inner component that uses useSearchParams
+function KaizenContent() {
   const [title, setTitle] = useState<string>('Kaizen Document');
   const [content, setContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -119,5 +120,26 @@ export default function KaizenPage() {
       onBack={handleBack}
       onPrint={handlePrint}
     />
+  );
+}
+
+// Loading component for Suspense
+function KaizenLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="spinner mb-4 h-12 w-12 mx-auto rounded-full border-4 border-gray-300 border-t-blue-600 animate-spin"></div>
+        <p className="text-lg">Loading Kaizen document...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main page component wrapped with Suspense
+export default function KaizenPage() {
+  return (
+    <Suspense fallback={<KaizenLoading />}>
+      <KaizenContent />
+    </Suspense>
   );
 }
