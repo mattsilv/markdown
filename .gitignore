@@ -48,5 +48,9 @@ next-env.d.ts
 /tmp/
 /.codesight/
 
+# Exclude public icon files from the above rules
+!/public/*.png
+!/public/icons/*.png
+
 # Package manager files
 pnpm-lock.yaml
