@@ -8,12 +8,16 @@ import {
   extractTitle,
   renderMarkdown
 } from '@/utils/markdownUtils/index';
+import { FiUpload, FiExternalLink } from 'react-icons/fi';
+import { RiMagicFill } from 'react-icons/ri';
+import { FaPersonRunning, FaLaptopCode } from 'react-icons/fa6';
 
 interface EditorViewProps {
   onGenerateReport: (title: string, htmlContent: string) => void;
+  sampleDocumentLink?: React.ReactNode;
 }
 
-export default function EditorView({ onGenerateReport }: EditorViewProps) {
+export default function EditorView({ onGenerateReport, sampleDocumentLink }: EditorViewProps) {
   const [markdownText, setMarkdownText] = useState('');
   const [fileName, setFileName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -142,36 +146,19 @@ export default function EditorView({ onGenerateReport }: EditorViewProps) {
 
   return (
     <div className="app-container flex flex-col max-w-4xl mx-auto p-4 md:p-8">
-      <div className="app-header text-center mb-8">
+      <div className="app-header text-center mb-6">
         <h1 className="text-3xl font-bold mb-2">Markdown Report Generator</h1>
-        <p className="text-gray-600">Paste your markdown and transform it into a professional report</p>
+        <p className="text-gray-600">Paste your markdown content from ChatGPT, Claude, or any other source of deep research or long outputs and create a beautiful report you can print as a PDF</p>
       </div>
       
-      <OptionsPanel
-        fixEscapes={fixEscapes}
-        smartLists={smartLists}
-        processFootnotes={processFootnotes}
-        onFixEscapesChange={(checked) => setFixEscapes(checked)}
-        onSmartListsChange={(checked) => setSmartLists(checked)}
-        onProcessFootnotesChange={(checked) => setProcessFootnotes(checked)}
-      />
-      
-      <div className="utility-buttons flex justify-end mb-4">
-        <button 
-          className="utility-btn bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded transition duration-300"
-          onClick={handleClear}
-        >
-          Clear
-        </button>
-      </div>
       
       <form className="app-form" onSubmit={handleSubmit}>
         <div className="file-import-container mb-4 flex flex-wrap items-center gap-2">
           <label 
             htmlFor="file-import" 
-            className="file-import-label bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer transition duration-300"
+            className="file-import-label bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer transition duration-300 flex items-center gap-2"
           >
-            Import Markdown File
+            <FiUpload className="inline" /> Import Markdown File
           </label>
           <input 
             type="file" 
@@ -181,6 +168,7 @@ export default function EditorView({ onGenerateReport }: EditorViewProps) {
             onChange={handleFileImport}
           />
           {fileName && <span id="file-name" className="text-sm text-gray-600">{fileName}</span>}
+          {sampleDocumentLink}
         </div>
         
         {hasSavedContent && (
@@ -196,15 +184,35 @@ export default function EditorView({ onGenerateReport }: EditorViewProps) {
           </div>
         )}
         
-        <textarea
-          className="markdown-input w-full h-96 p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
-          id="markdown-input"
-          placeholder="Paste your markdown here or import a file..."
-          value={markdownText}
-          onChange={(e) => setMarkdownText(e.target.value)}
-        />
+        <div className="relative">
+          <textarea
+            className="markdown-input w-full h-96 p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+            id="markdown-input"
+            placeholder="Paste your markdown here or import a file..."
+            value={markdownText}
+            onChange={(e) => setMarkdownText(e.target.value)}
+          />
+          {markdownText && (
+            <button 
+              className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 px-3 rounded-full text-sm transition duration-300"
+              onClick={handleClear}
+              type="button"
+            >
+              Clear
+            </button>
+          )}
+        </div>
         
         {error && <div className="error-message text-red-600 mt-2">{error}</div>}
+
+        <OptionsPanel
+          fixEscapes={fixEscapes}
+          smartLists={smartLists}
+          processFootnotes={processFootnotes}
+          onFixEscapesChange={(checked) => setFixEscapes(checked)}
+          onSmartListsChange={(checked) => setSmartLists(checked)}
+          onProcessFootnotesChange={(checked) => setProcessFootnotes(checked)}
+        />
         
         <button 
           type="submit" 
@@ -217,10 +225,15 @@ export default function EditorView({ onGenerateReport }: EditorViewProps) {
               Processing...
             </span>
           ) : (
-            <span className="btn-text">Make it Nice</span>
+            <span className="btn-text flex items-center justify-center gap-2">
+              <RiMagicFill className="inline" /> Make it Nice
+            </span>
           )}
         </button>
       </form>
+      <div className="text-center text-sm text-gray-500 mt-8 mb-4 flex items-center justify-center gap-1">
+        A micro app vibe coded <FaPersonRunning className="inline text-blue-400 text-lg dance-icon" /> <FaLaptopCode className="inline text-blue-500 text-lg" /> by <a href="https://www.silv.app" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">silv.app</a>
+      </div>
     </div>
   );
 }

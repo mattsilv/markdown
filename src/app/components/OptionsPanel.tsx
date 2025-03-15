@@ -22,7 +22,7 @@ export default function OptionsPanel({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="options-panel bg-gray-50 border border-gray-200 rounded p-2 mb-4">
+    <div className="options-panel bg-gray-50 border border-gray-200 rounded p-2 mb-3">
       <button 
         className="w-full text-left flex items-center justify-between" 
         onClick={() => setIsExpanded(!isExpanded)}
