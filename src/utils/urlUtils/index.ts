@@ -28,7 +28,7 @@ export function truncateUrl(url: string, maxLength: number = 60): string {
       domain.length,
       domain.length + pathToShow
     )}...`;
-  } catch (e) {
+  } catch {
     // If URL parsing fails, do simple truncation
     return url.substring(0, maxLength - 3) + "...";
   }

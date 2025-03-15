@@ -1,6 +1,6 @@
 "use client";
 
-import { generatePDF } from "@/utils/pdfUtils";
+// import { generatePDF } from "@/utils/pdfUtils";
 
 interface ReportViewProps {
   title: string;
@@ -17,9 +17,10 @@ export default function ReportView({
   onBack,
   onPrint,
 }: ReportViewProps) {
-  const handleDownloadPDF = () => {
-    generatePDF(title, content, date);
-  };
+  // Removed unused function
+  // const handleDownloadPDF = () => {
+  //   generatePDF(title, content, date);
+  // };
 
   return (
     <div className="report-mode bg-white min-h-screen">
