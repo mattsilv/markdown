@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-color: #4a90e2;
+  --secondary-color: #f5f5f5;
+  --accent-color: #e74c3c;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #dddddd;
+  --success-color: #27ae60;
+  --warning-color: #f39c12;
+  --error-color: #e74c3c;
+  --heading-font: 'Merriweather', Georgia, serif;
+  --body-font: 'Source Sans Pro', Arial, sans-serif;
+  --code-font: 'Source Code Pro', Menlo, Monaco, monospace;
+  --border-radius: 4px;
+  --box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --transition-speed: 0.3s;
+  --css-version: "1.0.3";
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--body-font);
+  --font-mono: var(--code-font);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1a1a1a;
+    --foreground: #ededed;
+    --secondary-color: #333333;
+    --text-primary: #f5f5f5;
+    --text-secondary: #cccccc;
+    --border-color: #444444;
+    --box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--body-font);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+pre, code {
+  font-family: var(--code-font);
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+}
+
+code {
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+}
+
+pre {
+  padding: 1em;
+  overflow-x: auto;
+}
+
+pre code {
+  padding: 0;
+  background: none;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Table Styles */
+.table-responsive {
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.table-note {
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-bottom: 0.5em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+
+th, td {
+  padding: 0.75em;
+  border: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--secondary-color);
+  font-weight: 600;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Footnotes Styles */
+.footnotes {
+  border-top: 1px solid var(--border-color);
+  margin-top: 2em;
+  padding-top: 1em;
+  font-size: 0.85em;
+}
+
+.footnote-ref a {
+  text-decoration: none;
+  padding: 0 2px;
+}
+
+.footnote-backref {
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    font-size: 12pt;
+    background: white;
+    color: black;
+  }
+  
+  .app-container {
+    display: none !important;
+  }
+  
+  .report-mode {
+    display: block !important;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .report-actions {
+    display: none !important;
+  }
+  
+  .table-note {
+    display: none;
+  }
+  
+  @page {
+    margin: 1.5cm;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  table, figure {
+    page-break-inside: avoid;
+  }
+  
+  img {
+    max-width: 100% !important;
+  }
+}
