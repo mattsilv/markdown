@@ -15,6 +15,9 @@ export function extractTitle(markdown: string): {title: string, modifiedMarkdown
     
     // Remove any asterisks or underscores that might still be in the title
     title = title.replace(/(\*\*|__)/g, '');
+    
+    // Remove "Q:" prefix that might be present from chat queries
+    title = title.replace(/^Q:\s*/i, '');
 
     // If we found a title in the first line, remove it from the markdown to avoid duplication
     const modifiedMarkdown = markdown.replace(
