@@ -41,5 +41,17 @@ export function preprocessMarkdown(text: string, options: MarkdownOptions): stri
     }
   }
 
+  // Remove special characters and symbols that come from ChatGPT copy operations
+  // Remove invisible/hidden Unicode characters
+  processed = processed.replace(/[\u200B-\u200F\u2028-\u202E\u00A0]/g, '');
+  
+  // Remove non-breaking spaces and other typographic whitespace variations
+  processed = processed.replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, ' ');
+  
+  // Remove unusual punctuation and symbols that may appear when copying from ChatGPT
+  processed = processed.replace(/[\u2013\u2014]/g, '-'); // En dash, em dash to hyphen
+  processed = processed.replace(/[\u2018\u2019]/g, "'"); // Curly single quotes to straight quote
+  processed = processed.replace(/[\u201C\u201D]/g, '"'); // Curly double quotes to straight quotes
+  
   return processed;
 }
