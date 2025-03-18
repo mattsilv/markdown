@@ -366,6 +366,55 @@ td > p:last-child {
 .footnote-content a.url-only-link {
   word-break: break-word;
   color: #0366d6;
+  text-decoration: none;
+  border-bottom: 1px dotted #0366d6;
+  padding-bottom: 1px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  font-size: 0.9em;
+}
+
+.footnote-content a.url-only-link:hover {
+  text-decoration: none;
+  border-bottom: 1px solid #0366d6;
+  background-color: rgba(3, 102, 214, 0.05);
+}
+
+/* Style to show full URL on hover as tooltip */
+.footnote-content a.url-only-link[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 1;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 5px 8px;
+  font-size: 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+@media print {
+  .footnote-content a.url-only-link {
+    color: #000;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* For print, we want the full URLs to be visible */
+  .footnote-content a.url-only-link::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+    display: inline;
+  }
 }
 
 /* Special style for text fragment links */
@@ -580,20 +629,55 @@ td > p:last-child {
   display: list-item !important;
   margin-bottom: 0.5em;
   position: relative;
-  padding-left: 0.3em;
+  padding-left: 0; /* Remove padding that might be accommodating extra bullets */
 }
 
-/* Ensure bullet points are clearly visible */
+/* Ensure bullet points are clearly visible, but only one */
 .report-content ul li::marker {
   color: #333;
   font-size: 1em;
 }
 
-/* Fix for executive summary bullet points that might be rendered as plain text */
-.report-content h2 + p + ul,
-.report-content h2 + p + p + ul {
-  margin-top: 1em;
-  list-style-type: disc !important;
+/* Reset any text bullets that might be present within list items */
+.report-content ul li::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Hide any additional text bullet characters */
+.report-content ul li > span:first-child:only-child {
+  display: inline;
+}
+
+/* Remove styles that might add extra bullets */
+.report-content p.bullet-text-item {
+  position: relative;
+  padding-left: 0; /* Remove padding that was adding space for bullets */
+  margin: 0.3em 0;
+  list-style-type: none; /* Remove default bullets */
+}
+
+/* Make sure paragraphs inside list items don't get extra bullets */
+.report-content li p {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure paragraphs inside list items don't get extra styling */
+.report-content li p.bullet-text-item,
+.report-content li p.bullet-text-parent {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  display: inline !important;
+  list-style-type: none !important;
+}
+
+/* Prevent any potential double bullets from ::before */
+.report-content ul li.bullet-text-item::before,
+.report-content ul li.executive-summary-point::before {
+  content: none !important;
+  display: none !important;
 }
 
 /* Special styles for executive summary key points */
@@ -615,14 +699,4 @@ td > p:last-child {
 /* Fix for items that should be bulleted but aren't properly formatted in markdown */
 .report-content p.bullet-text-parent {
   margin-bottom: 0.2em;
-}
-
-/* Convert text with bullet prefixes into proper bulleted items */
-.report-content p.bullet-text-item {
-  position: relative;
-  padding-left: 1.5em;
-  margin: 0.3em 0;
-  display: list-item;
-  list-style-type: disc;
-  margin-left: 1.5em;
 }

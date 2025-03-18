@@ -62,13 +62,22 @@ export function fixDuplicateUrlLinks(container: HTMLElement): void {
     footnoteContents.forEach((content) => {
       let contentHtml = content.innerHTML;
 
-      // FIRST: Completely remove any reference to Google search URLs
+      // Handle Google search URLs - replace with friendly link text but keep the URL clickable
       contentHtml = contentHtml.replace(
-        /\(https:\/\/www\.google\.com\/search\?[^)]+\)/g,
-        ""
+        /\[(https:\/\/www\.google\.com\/search\?[^)]+)\]|\((https:\/\/www\.google\.com\/search\?[^)]+)\)/g,
+        (match, url1, url2) => {
+          const url = url1 || url2;
+          return `<a href="${url}" class="url-only-link">Google Search</a>`;
+        }
       );
 
-      // Super simple Wikipedia fix - if it contains wikipedia.org, create a clean link
+      // Handle plain Google search URLs
+      contentHtml = contentHtml.replace(
+        /(https:\/\/www\.google\.com\/search\?[^\s<>"]+)/g,
+        (match) => `<a href="${match}" class="url-only-link">Google Search</a>`
+      );
+
+      // Improved Wikipedia handling - create clean, descriptive links
       contentHtml = contentHtml.replace(
         /\[?\[?(https?:\/\/)?(?:en\.)?wikipedia\.org[^\s<>"\]]+/g,
         (match) => {
@@ -105,10 +114,10 @@ export function fixDuplicateUrlLinks(container: HTMLElement): void {
       );
 
       // Remove any visible "class=url-only-link" that escaped into the text
-      contentHtml = contentHtml.replace(/class="url-only-link">/g, "");
+      contentHtml = contentHtml.replace(/class="url-only-link">/g, ">");
 
       // Fix specific "class=url-only-link" pattern appearing in rendered output
-      contentHtml = contentHtml.replace(/"?\s*class="url-only-link"\s*>/g, "");
+      contentHtml = contentHtml.replace(/"?\s*class="url-only-link"\s*>/g, ">");
 
       // Remove any ">https:" text fragments
       contentHtml = contentHtml.replace(/>https:\/\/[^<]+/g, ">");
@@ -132,6 +141,12 @@ export function fixDuplicateUrlLinks(container: HTMLElement): void {
           `<a href="${url}" class="url-only-link">${truncateUrl(url)}</a>`
       );
 
+      // Handle unlinked URLs in text - make them clickable 
+      contentHtml = contentHtml.replace(
+        /(?<!["\(\[])(https?:\/\/[^\s<>"\)\]]+)/g,
+        (match) => `<a href="${match}" class="url-only-link">${truncateUrl(match)}</a>`
+      );
+
       // Clean up URLs with trailing brackets
       contentHtml = contentHtml.replace(
         /(https:\/\/[^"\s\]]+)(\])/g,
@@ -151,26 +166,40 @@ export function fixDuplicateUrlLinks(container: HTMLElement): void {
         const text = link.textContent;
 
         if (href && text) {
-          // Handle text fragment links (#:~:text=)
-          if (href.includes("#:~:text=")) {
-            const displayUrl = href.split("#:~:text=")[0];
-            link.textContent = truncateUrl(displayUrl);
-            link.classList.add("url-only-link");
+          // Skip links that already have custom display text
+          if (link.classList.contains("url-only-link")) {
+            return;
           }
-          // Handle any # fragment
-          else if (href.includes("#") && href === text) {
-            const displayUrl = href.split("#")[0];
-            link.textContent = truncateUrl(displayUrl);
-            link.classList.add("url-only-link");
-          }
-          // Standard case for identical URL and text
-          else if (href === text && href.startsWith("http")) {
-            link.textContent = truncateUrl(text);
-            link.classList.add("url-only-link");
-          }
-          // Always ensure links are truncated for display
-          else if (text.startsWith("http")) {
-            link.textContent = truncateUrl(text);
+          
+          // Only process links that look like URLs
+          const isUrlText = text.startsWith("http") || 
+                           text.match(/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/);
+          
+          if (isUrlText) {
+            // Handle text fragment links (#:~:text=)
+            if (href.includes("#:~:text=")) {
+              const displayUrl = href.split("#:~:text=")[0];
+              link.textContent = truncateUrl(displayUrl);
+              link.classList.add("url-only-link");
+            }
+            // Handle any # fragment
+            else if (href.includes("#") && href === text) {
+              const displayUrl = href.split("#")[0];
+              link.textContent = truncateUrl(displayUrl);
+              link.classList.add("url-only-link");
+            }
+            // Standard case for identical URL and text
+            else if (href === text && href.startsWith("http")) {
+              link.textContent = truncateUrl(text, 60, false);
+              link.classList.add("url-only-link");
+              // Add title attribute with full URL for hover tooltip
+              link.setAttribute("title", href);
+            }
+            // Always ensure links are truncated for display
+            else if (text.startsWith("http")) {
+              link.textContent = truncateUrl(text, 60, false);
+              link.setAttribute("title", text);
+            }
           }
         }
       });

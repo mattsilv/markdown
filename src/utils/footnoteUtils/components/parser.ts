@@ -1,13 +1,65 @@
 'use client';
 
 /**
- * Process footnote content to ensure URLs are properly linked
+ * Process footnote content to ensure URLs are properly linked and truncated for display
  * 
  * @param content The footnote content text
  * @returns Processed content with URLs converted to clickable links
  */
 function processFootnoteContent(content: string): string {
   if (!content) return '';
+  
+  // Import is at the module level, but we need to make sure
+  // the truncateUrl function is available in this client context
+  // Note: This is handled by the import at the top of the file
+  const truncateUrl = (url: string, maxLength = 60, showFullDomain = true) => {
+    if (!url || url.length <= maxLength) return url;
+    
+    try {
+      // Special case for Wikipedia URLs
+      if (url.includes('wikipedia.org')) {
+        if (url.includes('/wiki/')) {
+          const articleName = url.split('/wiki/')[1].split(/[#?&]/)[0];
+          // Create readable display from article name
+          const displayText = articleName
+            .replace(/_/g, ' ')
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+          return `Wikipedia: ${displayText}`;
+        }
+        return 'Wikipedia';
+      }
+      
+      // Special case for search engines
+      if (url.includes('google.com/search')) return 'Google Search';
+      if (url.includes('bing.com/search')) return 'Bing Search';
+      if (url.includes('duckduckgo.com')) return 'DuckDuckGo Search';
+      
+      // Smart truncation
+      const urlObj = new URL(url.startsWith('http') ? url : `https://${url}`);
+      const domain = urlObj.hostname;
+      
+      // For domains with www, consider showing without www
+      const displayDomain = domain.startsWith('www.') && !showFullDomain 
+        ? domain.substring(4) 
+        : domain;
+      
+      // If URL is just a domain, show it directly
+      if (urlObj.pathname === '/' || urlObj.pathname === '') {
+        return displayDomain;
+      }
+      
+      // Calculate how much of the path to show
+      const pathToShow = maxLength - displayDomain.length - 5;
+      
+      // Show truncated path
+      return `${displayDomain}${urlObj.pathname.substring(0, pathToShow)}...`;
+    } catch {
+      // Simple truncation as fallback
+      return url.substring(0, maxLength - 3) + '...';
+    }
+  };
   
   // Regular expression to find URLs that aren't already in HTML links
   // This matches URLs starting with http://, https://, or www.
@@ -26,7 +78,12 @@ function processFootnoteContent(content: string): string {
       cleanUrl = cleanUrl.slice(0, -1);
     }
     
-    return `<a href="${cleanUrl}" class="url-only-link" target="_blank">${url}</a>`;
+    // Get truncated display version of the URL
+    const displayUrl = truncateUrl(cleanUrl, 60, false);
+    
+    // Create a link with the full URL as href, but truncated display text
+    // Add title attribute to show full URL on hover
+    return `<a href="${cleanUrl}" class="url-only-link" target="_blank" title="${cleanUrl}">${displayUrl}</a>`;
   });
 }
 
