@@ -233,12 +233,7 @@ function checkForConsumerReportTable(table: HTMLTableElement): boolean {
     headerTexts[1].includes("respondents") ||
     headerTexts[1].includes("%");
 
-  // Check third column header - not used but included for potential future use
-  const _hasStrategyHeader =
-    headerTexts[2].includes("strategy") ||
-    headerTexts[2].includes("messaging") ||
-    headerTexts[2].includes("approach") ||
-    headerTexts[2].includes("tactic");
+  // Check third column header - removed unused variable
 
   // If the headers match the pattern, check the data cells in second column
   if (hasFactorHeader && hasPercentageHeader) {
@@ -758,9 +753,7 @@ function determineFinancialTableAlignments(
   const hasValue = finHeaderTexts.some(
     (text) => text === "value" || text.includes("amount")
   );
-  // Not currently used but may be useful in future enhancements
-  const _hasNotes =
-    finHeaderTexts.includes("notes") || finHeaderTexts.includes("description");
+  // Not currently used but may be useful in future enhancements - removed unused variable
 
   // Use column stats for smarter alignment if available
   if (columnStats && columnStats.length === columnCount) {
