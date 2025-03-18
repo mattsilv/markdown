@@ -1,6 +1,36 @@
 'use client';
 
 /**
+ * Process footnote content to ensure URLs are properly linked
+ * 
+ * @param content The footnote content text
+ * @returns Processed content with URLs converted to clickable links
+ */
+function processFootnoteContent(content: string): string {
+  if (!content) return '';
+  
+  // Regular expression to find URLs that aren't already in HTML links
+  // This matches URLs starting with http://, https://, or www.
+  // And not already inside an existing <a> tag
+  const urlRegex = /(?<!<a[^>]*>.*?)(?:https?:\/\/|www\.)[^\s<>]+/g;
+  
+  // Replace plain URLs with clickable links  
+  return content.replace(urlRegex, (url) => {
+    // Ensure URL has http(s):// prefix
+    const fullUrl = url.startsWith('www.') ? `https://${url}` : url;
+    
+    // Clean up URL - remove trailing punctuation that might be part of the sentence
+    let cleanUrl = fullUrl;
+    // Remove trailing punctuation that isn't part of the URL
+    if (/[.,!?:;]$/.test(cleanUrl)) {
+      cleanUrl = cleanUrl.slice(0, -1);
+    }
+    
+    return `<a href="${cleanUrl}" class="url-only-link" target="_blank">${url}</a>`;
+  });
+}
+
+/**
  * Find all footnote references in format [^1] and track them
  */
 export interface ReferenceResult {
@@ -88,7 +118,9 @@ export function extractDefinitions(text: string): DefinitionResult {
         if (parts) {
           const [, id, content] = parts;
           if (!footnotes.has(id)) {
-            footnotes.set(id, content.trim());
+            // Process content to ensure URLs are linked
+            const processedContent = processFootnoteContent(content.trim());
+            footnotes.set(id, processedContent);
             console.log(
               `Extracted citation ${id} from Works Cited section: ${content
                 .trim()
@@ -129,7 +161,9 @@ export function extractDefinitions(text: string): DefinitionResult {
 
       // If we were already building a footnote, save it first
       if (currentId !== null) {
-        footnotes.set(currentId, currentContent.trim());
+        // Process content to ensure URLs are linked
+        const processedContent = processFootnoteContent(currentContent.trim());
+        footnotes.set(currentId, processedContent);
         console.log(
           `Saved footnote ${currentId}: ${currentContent
             .trim()
@@ -154,7 +188,9 @@ export function extractDefinitions(text: string): DefinitionResult {
 
   // Don't forget to save the last footnote if we were building one
   if (currentId !== null) {
-    footnotes.set(currentId, currentContent.trim());
+    // Process content to ensure URLs are linked
+    const processedContent = processFootnoteContent(currentContent.trim());
+    footnotes.set(currentId, processedContent);
     console.log(
       `Saved last footnote ${currentId}: ${currentContent
         .trim()
@@ -185,7 +221,9 @@ export function extractDefinitions(text: string): DefinitionResult {
         const content = numberMatch[3];
 
         if (!footnotes.has(id)) {
-          footnotes.set(id, content.trim());
+          // Process content to ensure URLs are linked
+          const processedContent = processFootnoteContent(content.trim());
+          footnotes.set(id, processedContent);
           console.log(
             `Extracted citation ${id} from numbered item: ${content
               .trim()
