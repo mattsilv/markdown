@@ -2,6 +2,10 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env.local') });
+
+// Use TEST_BASE_URL from environment or .env.local, fallback to localhost
+const TEST_BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 
 (async () => {
   // Launch browser
@@ -9,8 +13,8 @@ const path = require('path');
   const page = await browser.newPage();
   
   // Navigate to the local development server
-  await page.goto('http://192.168.9.82:3000', { waitUntil: 'networkidle2' });
-  console.log('Loaded the editor page');
+  await page.goto(TEST_BASE_URL, { waitUntil: 'networkidle2' });
+  console.log(`Loaded the editor page at ${TEST_BASE_URL}`);
   
   // Load test content
   const testContent = fs.readFileSync(path.join(__dirname, 'test-cases', 'test-content.md'), 'utf8');

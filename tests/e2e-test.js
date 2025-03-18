@@ -5,12 +5,16 @@
 const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env.local') });
+
+// Use TEST_BASE_URL from environment or .env.local, fallback to localhost
+const TEST_BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 
 async function runTest() {
   console.log('Starting end-to-end test for Markdown to Print');
   
   // Read test file - using our direct test content file
-  const testFilePath = path.join(__dirname, 'test-cases', 'test-content.md');
+  const testFilePath = path.join(__dirname, '..', 'test-cases', 'test-content.md');
   const markdownContent = fs.readFileSync(testFilePath, 'utf8');
   
   console.log('Test file loaded:', testFilePath);
@@ -26,8 +30,8 @@ async function runTest() {
   await page.setViewport({ width: 1280, height: 800 });
   
   try {
-    console.log('Navigating to application...');
-    await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
+    console.log(`Navigating to application at ${TEST_BASE_URL}...`);
+    await page.goto(TEST_BASE_URL, { waitUntil: 'networkidle2' });
     
     // Wait for editor to be fully loaded
     await page.waitForSelector('.markdown-input');

@@ -9,17 +9,25 @@
 - Start development server: `npm run dev` (IMPORTANT: DO NOT RUN THIS COMMAND! The server is always running in the background manually. Running it again will close the existing server.)
 - Build for production: `npm run build`
 - Run production build locally: `npm run start`
-- Run tests: `npm test`
 - Run type checking: `npm run typecheck`
 - Run linting: `npm run lint`
-- Run single test: `node tests/test-footnote-direct.js` or `node tests/footnote-test.js`
-- Run e2e tests: `node tests/e2e-test.js`
+
+## Testing
+
+- Test configuration uses `.env.local` file in project root with `TEST_BASE_URL` variable
+- Run default test: `npm test`
+- Run specific test suites:
+  - E2E test: `npm run test:e2e`
+  - Footnote test: `npm run test:footnotes`
+  - Text fragment test: `npm run test:text-fragment`
+  - All tests: `npm run test:all`
+- Run with direct script: `./tests/run-tests.sh [test-name]`
+- Override URL temporarily: `TEST_BASE_URL="http://another-url:3000" npm test`
 
 ## Puppeteer Access
 
-- Always use local IP address (192.168.9.82 or 192.168.9.54) instead of localhost
-- Development server URL: `http://192.168.9.82:3000`
-- For screenshots/testing: `mcp__puppeteer__puppeteer_navigate` with URL `http://192.168.9.82:3000`
+- For screenshots/testing: `mcp__puppeteer__puppeteer_navigate` with appropriate URL
+- Tests automatically use the `TEST_BASE_URL` from `.env.local` file
 
 ## Code Style Guidelines
 

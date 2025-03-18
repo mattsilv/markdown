@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Markdown to Print
+
+A powerful Next.js application for converting markdown documents into beautifully formatted, print-ready reports.
+
+## Features
+
+- **Rich Markdown Support**: Handles complex formatting, tables, footnotes, and citations
+- **Table Enhancement**: Intelligently detects and formats different table types (financial, demographic, reference)
+- **Print Optimization**: CSS optimized for both screen viewing and print output
+- **URL and Text Fragment Handling**: Proper formatting of links for both digital and print formats
+- **Automatic Title Extraction**: Intelligently extracts document titles from markdown content
+- **Customizable Styling**: Fine-tune the appearance of your generated reports
+- **Responsive Design**: Works seamlessly across devices
 
 ## Getting Started
 
-First, run the development server:
+### Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server (IMPORTANT: Only run if server isn't already running)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# View in browser
+open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Testing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Run type checking
+npm run typecheck
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run linting
+npm run lint
 
-## Learn More
+# Run all tests
+npm run test:all
 
-To learn more about Next.js, take a look at the following resources:
+# Run specific test suite
+npm run test:e2e
+npm run test:footnotes
+npm run test:text-fragment
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Table Processing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application includes sophisticated table detection and formatting:
 
-## Deploy on Vercel
+- **Financial Tables**: Optimized for numeric data with proper alignment
+- **Demographic Tables**: Specialized handling for mixed data presentations
+- **Reference Tables**: Special treatment for citation and bibliography tables
+- **Consumer Reports**: Formatting for survey and percentage data
+- **Responsive Tables**: Automatic wrapping for wide tables on mobile devices
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Footnote Handling
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Smart Detection**: Recognizes various footnote formats (`[^1]`, `[1]`, superscript)
+- **Automatic Works Cited**: Generates a properly formatted reference section
+- **Link Integration**: Transforms URLs in footnotes into clickable links
+- **Duplicate Prevention**: Intelligently merges with existing bibliography sections
+
+## Character Filtering
+
+- **GSM Character Set Filtering**: Removes incompatible Unicode characters
+- **Special Character Handling**: Automatic removal of special characters from LLM-generated markdown
+
+## Sample Documents
+
+Browse example documents to see the formatting capabilities:
+
+- `/samples/kaizen.md` - General formatting example
+- `/samples/oai-micro.md` - LLM-generated content example
+- `/samples/tables_sample.md` - Complex table formatting example
+
+## Print Mode
+
+Use the "Print" button in report view to generate a print-optimized version:
+
+- Tables properly paginated with repeated headers
+- Links formatted for readability in printed output
+- Proper page breaks to maintain document structure
+- Color preservation for important visual elements
+
+## Project Structure
+
+- `/src/app/components` - React components for UI elements
+- `/src/app/styles` - CSS styling including print optimization
+- `/src/utils` - Utility functions for markdown processing
+- `/src/utils/tableUtils` - Table detection and enhancement
+- `/src/utils/footnoteUtils` - Footnote processing and rendering
+- `/test-cases` - Example documents for testing
+- `/tests` - End-to-end and integration tests
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.

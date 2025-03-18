@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import ReportView from '../../components/ReportView';
+import SampleReportView from '../../components/report/SampleReportView';
 import {
   preprocessMarkdown,
   configureMarked,
@@ -113,7 +113,7 @@ function KaizenContent() {
   }
   
   return (
-    <ReportView
+    <SampleReportView
       title={title}
       content={content}
       date={currentDate}

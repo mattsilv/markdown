@@ -46,7 +46,8 @@ next-env.d.ts
 *.jpeg
 *.gif
 /tmp/
-/.codesight/
+.codesight/
+codesight.txt
 
 # Exclude public icon files from the above rules
 !/public/*.png

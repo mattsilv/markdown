@@ -1,0 +1,101 @@
+/* Animations */
+
+/* Custom dancing icon animation */
+@keyframes danceMoves {
+  0%, 70% {
+    transform: rotate(0deg);
+  }
+  72% {
+    transform: rotate(-12deg);
+  }
+  74% {
+    transform: rotate(0deg);
+  }
+  76% {
+    transform: rotate(18deg);
+  }
+  78% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(-18deg);
+  }
+  82% {
+    transform: rotate(12deg);
+  }
+  84% {
+    transform: rotate(-6deg);
+  }
+  86% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.dance-icon {
+  animation: danceMoves 5s infinite;
+  transform-origin: center;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Spin animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}

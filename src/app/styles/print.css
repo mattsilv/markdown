@@ -41,7 +41,7 @@
     page-break-after: avoid;
     page-break-inside: avoid;
   }
-  
+
   /* Maintain report styles when printing */
   .report-content h1,
   .report-content h2,
@@ -58,7 +58,7 @@
   figure {
     page-break-inside: avoid;
   }
-  
+
   /* Reset table display for printing */
   .markdown-content table,
   .report-content table {
@@ -68,21 +68,25 @@
     border-collapse: collapse; /* Use collapse for print */
     table-layout: auto; /* Auto layout often works better for print */
   }
-  
+
   /* Reset table styling for print */
-  table, tr, th, td {
+  table,
+  tr,
+  th,
+  td {
     height: auto !important;
   }
-  
-  th, td {
+
+  th,
+  td {
     vertical-align: middle !important;
   }
-  
+
   /* Adjust table fonts for print */
   table {
     font-size: 10pt;
   }
-  
+
   th {
     /* Use the CSS variable instead of hard-coded color */
     background-color: var(--secondary-color) !important;
@@ -90,59 +94,93 @@
     /* color: black !important; */
     position: static !important; /* Reset sticky positioning */
   }
-  
+
   /* Maintain zebra striping for even rows */
   tr:nth-child(even) {
     background-color: rgba(0, 0, 0, 0.02) !important;
   }
-  
-  tr, th, td {
+
+  tr,
+  th,
+  td {
     page-break-inside: avoid;
     /* Use variable instead of hard-coded color */
     border-color: var(--border-color) !important;
     min-height: auto !important; /* Reset min-height */
     max-height: none !important; /* Reset max-height */
   }
-  
+
   /* Ensure all table content is visible in print */
   td {
     word-wrap: break-word !important;
     overflow: visible !important;
   }
-  
+
   /* Handle list cells specifically for print */
   td.list-cell {
     vertical-align: top !important;
   }
-  
+
   /* Ensure lists in tables print correctly */
-  td.list-cell ul, 
+  td.list-cell ul,
   td.list-cell ol {
     margin: 0 !important;
     padding-left: 1.2em !important;
   }
-  
+
   td.list-cell li {
     margin-top: 0.1em !important;
     margin-bottom: 0.1em !important;
     page-break-inside: avoid !important;
   }
 
+  /* Enhanced table styling for print */
+  .enhanced-table,
+  .normalized-table {
+    border-collapse: collapse !important;
+    box-shadow: none !important; /* Remove shadows in print */
+  }
+
+  .enhanced-table th,
+  .normalized-table th {
+    background-color: #f2f7fd !important;
+    color: #333 !important;
+    border-bottom: 1px solid #aaa !important;
+  }
+
+  .enhanced-table td,
+  .normalized-table td {
+    border: 1px solid #ddd !important;
+  }
+
+  /* Ensure numeric cells are right-aligned in print */
+  .numeric-cell {
+    text-align: right !important;
+  }
+
+  /* Center appropriate content */
+  td[align="center"],
+  th[align="center"] {
+    text-align: center !important;
+  }
+
   img {
     max-width: 100% !important;
   }
-  
+
   /* Hide UI elements */
   .no-print {
     display: none !important;
   }
-  
+
   /* Ensure proper page breaks */
-  p, h2, h3 {
+  p,
+  h2,
+  h3 {
     orphans: 3;
     widows: 3;
   }
-  
+
   /* Ensure URLs are displayed in printed version */
   a[href]:after {
     content: " (" attr(href) ")";
@@ -150,14 +188,14 @@
     color: #333;
     word-break: break-all;
   }
-  
+
   /* But not for internal links, javascript, or text fragment links (already handled) */
   a[href^="#"]:after,
   a[href^="javascript:"]:after,
   a[href*="#:~:text="]:after {
     content: "";
   }
-  
+
   /* Special handling for URLs with text fragments */
   a.text-fragment-link {
     text-decoration: underline;
@@ -165,9 +203,10 @@
     max-width: 100% !important;
     word-break: break-all !important;
   }
-  
+
   /* Strikethrough text in print */
-  del, s {
+  del,
+  s {
     text-decoration: line-through !important;
     /* Use variable instead of hardcoded color */
     color: var(--text-secondary) !important;

@@ -1,0 +1,628 @@
+/* Report styles - for rendered HTML content */
+
+/* Additional paragraph spacing override - when needed */
+.prose p + p {
+  margin-top: 1em;
+}
+
+/* Strikethrough text styling */
+del,
+s {
+  text-decoration: line-through;
+  color: #666;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* URL styling for better wrapping and display */
+a[href] {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  display: inline-block;
+}
+
+/* Long URL display in content */
+.report-content a[href^="http"],
+.markdown-content a[href^="http"] {
+  font-size: 0.9em;
+  max-width: 100%;
+  display: inline-block;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+/* Special handling for URLs with text fragment identifiers */
+a[href*="#:~:text="] {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Show full URL on hover for truncated URLs */
+a[href*="#:~:text="]:hover {
+  white-space: normal;
+  text-overflow: clip;
+}
+
+/* List spacing */
+ul {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* Report-specific heading styles */
+.report-content h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  color: #333;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 0.3em;
+}
+
+.report-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.6em;
+  color: #444;
+}
+
+.report-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+.report-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+  color: #666;
+}
+
+.report-content h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.7em;
+  margin-bottom: 0.3em;
+  color: #777;
+}
+
+.report-content h6 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.6em;
+  margin-bottom: 0.3em;
+  color: #888;
+  font-style: italic;
+}
+
+/* Table Styles */
+.table-responsive {
+  overflow-x: auto;
+  margin: 1.5em 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+
+.table-note {
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-bottom: 0.5em;
+}
+
+/* Auto-wrap tables in responsive containers */
+.markdown-content table,
+.report-content table {
+  width: 100%;
+  border-collapse: separate; /* Changed from collapse for better cell spacing control */
+  border-spacing: 0;
+  margin: 1em 0;
+  font-size: 0.9em; /* Slightly smaller font for tables */
+  line-height: 1.4;
+  overflow: hidden; /* Ensures border-radius works with table */
+  border-radius: 4px;
+  table-layout: fixed; /* Fixed layout for more predictable column widths */
+}
+
+/* Add responsive wrapper for tables */
+.markdown-content table,
+.report-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+th,
+td {
+  padding: 0.75em 1em;
+  border: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: middle; /* Middle alignment for balanced appearance */
+  position: relative;
+  word-wrap: break-word; /* Ensures text wraps within cells */
+  overflow: hidden; /* Prevents overflow */
+}
+
+/* Header styles */
+th {
+  background-color: var(--secondary-color);
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid var(--border-color);
+  position: sticky; /* Makes headers sticky for large tables */
+  top: 0;
+  z-index: 1;
+}
+
+/* Zebra striping */
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Hover effect for better row tracking */
+tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Support for text alignment in tables */
+td[align="center"],
+th[align="center"] {
+  text-align: center;
+}
+
+td[align="right"],
+th[align="right"] {
+  text-align: right;
+}
+
+/* Style for empty cells to maintain structure */
+td:empty {
+  height: 2.5em; /* Increased minimum height */
+}
+
+/* Responsive table styles */
+@media (max-width: 767px) {
+  table {
+    font-size: 0.85em; /* Even smaller on mobile */
+  }
+
+  th,
+  td {
+    padding: 0.6em 0.8em;
+  }
+}
+
+/* Special styles for tables with lists */
+td ul,
+td ol {
+  margin: 0;
+  padding-left: 1.5em;
+  width: 100%; /* Ensure lists take full width */
+  text-align: left; /* Always left align lists */
+}
+
+td li {
+  margin-bottom: 0.3em;
+  text-align: left; /* Always left align list items */
+}
+
+/* Ensure cell containing lists aligns properly */
+/* Using .list-cell class instead of :has() selector */
+td.list-cell {
+  align-items: flex-start !important; /* Align to top when containing lists */
+  justify-content: flex-start !important; /* Align to top */
+  padding-top: 0.75em; /* Add some padding at top */
+}
+
+/* Fallback for browsers that don't support :has() */
+td ul,
+td ol {
+  display: block;
+  width: 100%;
+}
+
+/* General alignment fix for cells with any content type */
+tr > td {
+  padding: 0.75em 1em; /* Consistent padding */
+  text-align: left;
+}
+
+/* Support for nested headers (blank cells in first column) */
+td:first-child:empty + td {
+  padding-left: 2em; /* Indent subcategories */
+}
+
+/* Bold text in tables */
+td strong,
+th strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Uniform row heights with table approach */
+tr {
+  min-height: 2.5em;
+}
+
+/* Set equal height for all rows */
+table tr {
+  height: 1px; /* This forces all rows to have the same height */
+}
+
+/* All cells in a row should expand to fill the row height */
+table td,
+table th {
+  height: 100%; /* Make cells take full height of the row */
+  vertical-align: middle; /* Center content vertically by default */
+  position: relative;
+}
+
+/* Make all cells in a row have the same baseline */
+tr > th,
+tr > td {
+  line-height: 1.5em;
+}
+
+/* Table column sizing based on content */
+table.auto-size {
+  table-layout: auto;
+}
+
+/* Special handling for tables with lists - resets some flexbox properties */
+table.auto-size td {
+  vertical-align: top;
+  height: auto;
+}
+
+/* Specific styling for cells with lists */
+td.list-cell {
+  vertical-align: top !important;
+  padding-top: 0.5em !important;
+  height: auto !important;
+}
+
+/* No bullet lists in tables should be properly aligned */
+table.auto-size ul,
+td.list-cell ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 1.2em;
+  list-style-position: outside;
+}
+
+/* List items in tables need less spacing */
+table.auto-size li,
+td.list-cell li {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  text-align: left;
+  line-height: 1.3;
+  display: list-item;
+}
+
+/* Ensure proper row heights for cells with lists */
+td.list-cell {
+  padding: 0.75em 1em !important;
+}
+
+/* Handle tables with many columns */
+@media (min-width: 768px) {
+  .markdown-content table.wide-table,
+  .report-content table.wide-table {
+    min-width: 100%;
+  }
+}
+
+/* Special handling for complex tables with mixed content */
+td > p:first-child {
+  margin-top: 0;
+}
+
+td > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Footnotes and Works Cited Styles */
+.footnotes,
+.report-content-footnotes,
+.works-cited {
+  margin-top: 0.5em;
+  padding-top: 0.5em;
+  font-size: 0.85em;
+}
+
+.footnote-ref a {
+  text-decoration: none;
+  padding: 0 2px;
+}
+
+.footnote-backref {
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.footnote-list {
+  font-size: 1em;
+  padding-left: 0.2em;
+}
+
+.footnote-item {
+  font-size: 1em;
+  margin-bottom: 0.75em;
+}
+
+/* Styles for links in footnotes */
+.footnote-content a.url-only-link {
+  word-break: break-word;
+  color: #0366d6;
+}
+
+/* Special style for text fragment links */
+.footnote-content a.text-fragment-link {
+  font-style: normal;
+  position: relative;
+}
+
+/* Report actions */
+.report-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Report container */
+.report-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Report header */
+.report-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.report-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.report-date {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.subheader {
+  font-size: 1rem;
+  margin-top: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Report content spacing */
+.report-content {
+  line-height: 1.6;
+}
+
+/* Consistent heading spacing */
+.report-content h1,
+.report-content h2,
+.report-content h3,
+.report-content h4,
+.report-content h5,
+.report-content h6 {
+  margin-top: 1.75em;
+  margin-bottom: 0.75em;
+  line-height: 1.3;
+  page-break-after: avoid;
+}
+
+/* First heading needs less space at top */
+.report-content h1:first-child,
+.report-content h2:first-child,
+.report-content h3:first-child {
+  margin-top: 0.5em;
+}
+
+/* Specific heading spacing */
+.report-content h1 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.report-content h2 {
+  margin-top: 1.75em;
+  margin-bottom: 0.8em;
+}
+
+.report-content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.7em;
+}
+
+/* Paragraph spacing */
+.report-content p {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+  line-height: 1.6;
+}
+
+/* List spacing */
+.report-content ul,
+.report-content ol {
+  margin-top: 0.8em;
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.report-content li {
+  margin-bottom: 0.5em;
+}
+
+/* Nested lists */
+.report-content li > ul,
+.report-content li > ol {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Horizontal rule (line break) spacing */
+.report-content hr {
+  margin: 2em 0;
+  height: 1px;
+  background-color: #e0e0e0;
+  border: none;
+}
+
+/* Blockquote spacing */
+.report-content blockquote {
+  margin: 1.5em 0;
+  padding: 0.5em 1em;
+  border-left: 4px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+/* Table spacing */
+.report-content table {
+  margin: 1.5em 0;
+}
+
+/* Code block spacing */
+.report-content pre {
+  margin: 1.2em 0;
+  padding: 1em;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+/* Inline code spacing */
+.report-content code {
+  padding: 0.2em 0.4em;
+  background-color: #f5f5f5;
+  border-radius: 3px;
+}
+
+/* Image spacing */
+.report-content img {
+  margin: 1.5em 0;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix for consecutive elements */
+.report-content h2 + p,
+.report-content h3 + p,
+.report-content h4 + p {
+  margin-top: 0.5em;
+}
+
+/* Fix for consecutive headings */
+.report-content h2 + h3,
+.report-content h3 + h4 {
+  margin-top: 1em;
+}
+
+/* Consistent spacing after lists */
+.report-content ul + p,
+.report-content ol + p {
+  margin-top: 1em;
+}
+
+/* Print-specific spacing adjustments */
+@media print {
+  .report-content {
+    line-height: 1.5;
+  }
+
+  .report-content h1,
+  .report-content h2,
+  .report-content h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.7em;
+  }
+
+  .report-content p {
+    margin-top: 0.7em;
+    margin-bottom: 0.7em;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .report-content hr {
+    margin: 1.5em 0;
+  }
+}
+
+/* Fix for bullet points in executive summary and other sections */
+.report-content ul {
+  list-style-type: disc !important;
+  padding-left: 1.5em;
+  margin: 0.8em 0;
+}
+
+.report-content ul li {
+  display: list-item !important;
+  margin-bottom: 0.5em;
+  position: relative;
+  padding-left: 0.3em;
+}
+
+/* Ensure bullet points are clearly visible */
+.report-content ul li::marker {
+  color: #333;
+  font-size: 1em;
+}
+
+/* Fix for executive summary bullet points that might be rendered as plain text */
+.report-content h2 + p + ul,
+.report-content h2 + p + p + ul {
+  margin-top: 1em;
+  list-style-type: disc !important;
+}
+
+/* Special styles for executive summary key points */
+.report-content .executive-summary-point,
+.report-content p.executive-point {
+  position: relative;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.report-content .executive-summary-point::before,
+.report-content p.executive-point::before {
+  content: "•";
+  position: absolute;
+  left: 0.5em;
+  color: #333;
+}
+
+/* Fix for items that should be bulleted but aren't properly formatted in markdown */
+.report-content p.bullet-text-parent {
+  margin-bottom: 0.2em;
+}
+
+/* Convert text with bullet prefixes into proper bulleted items */
+.report-content p.bullet-text-item {
+  position: relative;
+  padding-left: 1.5em;
+  margin: 0.3em 0;
+  display: list-item;
+  list-style-type: disc;
+  margin-left: 1.5em;
+}

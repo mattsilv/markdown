@@ -1,22 +1,26 @@
-'use client';
+"use client";
 
-import { analyzeAndSetColumnWidths } from './columnWidthUtils';
-import { processCellsFormatting } from './formattingUtils';
-import { wrapTableInResponsiveContainer } from './responsiveUtils';
-import { normalizeTableFontSizes } from './fontSizeUtils';
+import { analyzeAndSetColumnWidths } from "./columnWidthUtils";
+import { processCellsFormatting } from "./formattingUtils";
+import { wrapTableInResponsiveContainer } from "./responsiveUtils";
+import { normalizeTableFontSizes } from "./fontSizeUtils";
+import { enhanceTables } from "./enhancedTables";
 
 /**
  * Process all tables in a container
  */
 export function processTables(container: HTMLElement): number {
   const tables = container.querySelectorAll<HTMLTableElement>("table");
-  
+
   // First process each table individually
   tables.forEach((table) => processTable(table));
-  
+
   // Then normalize font sizes and styling across all tables
   normalizeTablesAcrossDocument(container);
-  
+
+  // Apply enhanced styling to tables with references/citations
+  enhanceTables(container);
+
   return tables.length;
 }
 

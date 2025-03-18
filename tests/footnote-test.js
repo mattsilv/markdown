@@ -2,6 +2,10 @@
 const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
+require('dotenv').config({ path: path.resolve(__dirname, '..', '.env.local') });
+
+// Use TEST_BASE_URL from environment or .env.local, fallback to localhost
+const TEST_BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
 
 async function testFootnotes() {
   console.log('Starting footnote test...');
@@ -49,7 +53,8 @@ Here is another paragraph with a second footnote[^2].
   try {
     // Navigate to the application
     console.log('Navigating to application...');
-    await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
+    await page.goto(TEST_BASE_URL, { waitUntil: 'networkidle2' });
+    console.log(`Navigating to ${TEST_BASE_URL}...`);
     
     // Wait for editor to load
     await page.waitForSelector('.markdown-input');

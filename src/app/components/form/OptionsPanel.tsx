@@ -43,7 +43,7 @@ export default function OptionsPanel({
               checked={fixEscapes}
               onChange={(e) => onFixEscapesChange(e.target.checked)}
             />
-            <label htmlFor="fix-escapes" className="text-sm">Fix escaped characters (\.)</label>
+            <label htmlFor="fix-escapes" className="text-sm">Fix escaped characters (\\)</label>
           </div>
           
           <div className="option-item flex items-center">

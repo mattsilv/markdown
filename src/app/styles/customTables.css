@@ -1,0 +1,310 @@
+/* Enhanced Table Styles */
+
+/* Professional table styling */
+.markdown-content table,
+.report-content table {
+  border-collapse: collapse !important;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+  border: 1px solid rgb(221, 221, 221);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  /* Fix for display discrepancy between HTML and print view */
+  display: table !important;
+  table-layout: auto !important;
+  overflow-x: auto;
+}
+
+/* Table header styling */
+th {
+  background-color: #f2f7fd !important;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px 15px;
+  border: 1px solid #dddddd !important;
+  border-bottom: 2px solid #dddddd !important;
+  /* Fix for sticky positioning causing inconsistency */
+  position: relative !important;
+  line-height: 1.5em;
+  vertical-align: middle !important;
+}
+
+/* Table cell styling */
+td {
+  padding: 10px 15px;
+  border: 1px solid #dddddd !important;
+  vertical-align: middle !important;
+  line-height: 1.5em;
+  word-wrap: break-word;
+  min-height: 2em;
+}
+
+/* Ensure all table cells have consistent sizing */
+tr {
+  background-color: #ffffff;
+  page-break-inside: avoid;
+  min-height: 2.5em !important; /* Ensure minimum row height */
+}
+
+/* Zebra striping for better readability */
+tr:nth-child(even) {
+  background-color: #f8f8f8 !important;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Content-based cell classes */
+td.numeric-cell {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: visible;
+  min-width: 60px !important; /* Ensure minimum width for numeric cells */
+}
+
+/* Special cell types for demographic and mixed data tables */
+td.numeric-column {
+  text-align: right !important;
+  min-width: 60px !important;
+  font-variant-numeric: tabular-nums;
+}
+
+td.percentage-column {
+  text-align: center !important;
+  min-width: 70px !important;
+}
+
+td.plus-percentage-column {
+  text-align: center !important;
+  min-width: 70px !important;
+  color: #2d882d; /* Optional: make plus values green */
+}
+
+/* Applied to tables with both numeric and percentage columns */
+.demographic-table td.numeric-column,
+.mixed-data-table td.numeric-column {
+  text-align: right !important;
+}
+
+.demographic-table td.percentage-column,
+.demographic-table td.plus-percentage-column,
+.mixed-data-table td.percentage-column,
+.mixed-data-table td.plus-percentage-column {
+  text-align: center !important;
+}
+
+/* Special handling for numeric cells with footnotes */
+td.numeric-with-footnote {
+  text-align: center !important; /* Match other percentage cells */
+  white-space: nowrap;
+}
+
+/* Special handling for footnotes in different table types */
+.demographic-table td.numeric-column.numeric-with-footnote {
+  text-align: right !important; /* Keep numeric values right aligned */
+}
+
+.demographic-table td.percentage-column.numeric-with-footnote,
+.demographic-table td.plus-percentage-column.numeric-with-footnote {
+  text-align: center !important; /* Keep percentage values centered */
+}
+
+/* For specifically the second column in the percentage tables */
+.value-notes-table td:nth-child(2).numeric-with-footnote {
+  text-align: center !important;
+}
+
+/* Consumer report tables need consistent centered percentages */
+.consumer-report-table td.percentage-column {
+  text-align: center !important;
+  min-width: 90px !important;
+}
+
+td.label-cell {
+  text-align: left !important;
+}
+
+td.notes-cell {
+  font-size: 0.95em;
+  color: #555;
+  text-align: left !important;
+  min-width: 150px; /* Ensure notes have enough space */
+}
+
+/* Improved short content handling */
+td:not(.label-cell):not(.notes-cell) {
+  min-width: 70px; /* Minimum width for cells */
+}
+
+/* Ensure all numeric cells align properly */
+.numeric-cell,
+td[style*="text-align: right"] {
+  font-feature-settings: "tnum";
+  padding-right: 20px !important; /* Extra padding on right for better readability */
+}
+
+/* Special handling for the percentage table type from the consumer model */
+table.normalized-table td:nth-child(2) {
+  text-align: center !important;
+}
+
+/* Percentage values should be right-aligned properly */
+td[data-content*="%"],
+td.percentage-value {
+  text-align: right !important;
+}
+
+/* But percentage with footnote should match other percentage values */
+td.percentage-value.numeric-with-footnote,
+.normalized-table td.percentage-value.numeric-with-footnote,
+.consumer-report-table td.percentage-value {
+  text-align: center !important;
+}
+
+/* Table-specific styling */
+.financial-table td:first-child,
+.specification-table td:first-child,
+.comparison-table td:first-child {
+  text-align: left;
+}
+
+/* Classes for different types of tables */
+.metrics-table th {
+  font-weight: 600;
+}
+
+.value-notes-table td:nth-child(2) {
+  text-align: right;
+  min-width: 80px;
+}
+
+/* Fix for reference links within tables */
+td a,
+td sup {
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+td a:hover,
+td sup:hover {
+  text-decoration: underline;
+}
+
+/* Fix for footnote references */
+.footnote-ref {
+  font-size: 0.8em;
+  vertical-align: super;
+  line-height: 0;
+  color: #4a90e2;
+}
+
+/* Table cell sizing and spacing fixes */
+table,
+tr,
+td,
+th {
+  height: auto !important;
+  min-height: unset !important;
+  max-height: unset !important;
+}
+
+/* Fix for tiny text in cells */
+td,
+th {
+  font-size: 0.95em !important;
+  max-width: none;
+}
+
+/* Handle lists within tables */
+td ul,
+td ol {
+  margin: 0;
+  padding-left: 1.5em;
+  width: 100%;
+  text-align: left;
+}
+
+td li {
+  margin-bottom: 0.3em;
+  text-align: left;
+}
+
+/* Fix for uneven row heights */
+td[style*="min-height"] {
+  min-height: auto !important;
+}
+
+/* Fix for table wrapping issues */
+table[style*="normalized-font-size"] {
+  display: table !important;
+  table-layout: auto !important;
+  width: 100% !important;
+}
+
+/* For citation and reference tables, ensure proper alignment */
+table[data-normalized-font-size] td:last-child {
+  white-space: normal;
+  word-break: normal;
+  text-align: left;
+}
+
+/* Screen-specific adjustments */
+@media screen {
+  .markdown-content table,
+  .report-content table {
+    display: table !important;
+    width: 100%;
+    overflow-x: auto;
+    table-layout: auto !important;
+  }
+
+  tr,
+  td,
+  th {
+    height: auto !important;
+  }
+
+  /* Fix for horizontal scrolling on mobile */
+  @media (max-width: 767px) {
+    .markdown-content table,
+    .report-content table {
+      display: block !important;
+      overflow-x: auto;
+    }
+
+    td,
+    th {
+      padding: 8px 10px;
+      font-size: 0.9em !important;
+    }
+  }
+}
+
+/* Print-specific adjustments */
+@media print {
+  table {
+    page-break-inside: avoid !important;
+    display: table !important;
+    width: 100% !important;
+    table-layout: auto !important;
+  }
+
+  th {
+    background-color: #f2f7fd !important;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8f8f8 !important;
+  }
+
+  td,
+  th {
+    padding: 8px 10px !important;
+    border: 1px solid #ddd !important;
+  }
+}
