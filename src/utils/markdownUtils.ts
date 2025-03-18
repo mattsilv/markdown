@@ -37,37 +37,53 @@ export function normalizeMarkdownSpacing(markdownContent: string): string {
     // Get executive summary content
     const executiveSummary = normalized.slice(startIndex, endIndex);
 
-    // Convert specific lines to bullet points
-    const keyTerms = [
-      "Drive",
-      "Increase",
-      "Enhance",
-      "Support",
-      "Differentiate",
-    ];
+    // Check if the content already has proper bullet points - if so, don't modify
+    const hasProperBulletPoints =
+      executiveSummary.includes("- **") ||
+      executiveSummary.includes("* **") ||
+      executiveSummary.includes("• **");
 
-    let updatedSummary = executiveSummary;
-    const lines = executiveSummary.split("\n");
+    if (!hasProperBulletPoints) {
+      // Only convert content without proper bullets
+      const keyTerms = [
+        "Drive",
+        "Increase",
+        "Enhance",
+        "Support",
+        "Differentiate",
+      ];
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
+      let updatedSummary = executiveSummary;
+      const lines = executiveSummary.split("\n");
 
-      // Check if line starts with any of the key terms
-      if (keyTerms.some((term) => line.startsWith(term))) {
-        // Convert to bullet point if it's not already one
-        if (!line.startsWith("- ") && !line.startsWith("* ")) {
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        // Check if line starts with any of our key terms AND is not already a bullet point
+        if (
+          keyTerms.some(
+            (term) =>
+              line.startsWith(term) &&
+              !line.startsWith("- ") &&
+              !line.startsWith("* ") &&
+              !line.startsWith("• ") &&
+              !line.startsWith("+ ") &&
+              !line.match(/^\d+\.\s+/)
+          )
+        ) {
+          // Convert to bullet point if it's not already one
           lines[i] = "- " + line;
         }
       }
+
+      updatedSummary = lines.join("\n");
+
+      // Replace the original summary with updated one
+      normalized =
+        normalized.slice(0, startIndex) +
+        updatedSummary +
+        normalized.slice(endIndex);
     }
-
-    updatedSummary = lines.join("\n");
-
-    // Replace the original summary with updated one
-    normalized =
-      normalized.slice(0, startIndex) +
-      updatedSummary +
-      normalized.slice(endIndex);
   }
 
   // Step 3: Fix inconsistent heading spacing
