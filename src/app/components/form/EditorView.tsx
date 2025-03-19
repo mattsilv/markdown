@@ -19,35 +19,39 @@ export default function EditorView({
   onGenerateReport,
   sampleDocumentLink,
 }: EditorViewProps) {
-  const handleSubmit = async (markdownText: string, options: FormOptions) => {
+  const handleMarkdownSubmit = async (
+    markdownText: string,
+    options: FormOptions
+  ) => {
     try {
-      // Pre-process markdown
-      const processedMarkdown = preprocessMarkdown(markdownText, {
+      console.log("Processing markdown with options:", options);
+
+      // Normalize spacing and line breaks (clean up document)
+      const normalizedMarkdown = normalizeMarkdownSpacing(markdownText);
+
+      // Extract the title from the first heading if available
+      const { title, modifiedMarkdown } = extractTitle(normalizedMarkdown);
+
+      // Process markdown with selected options
+      const preprocessed = preprocessMarkdown(modifiedMarkdown, {
         fixEscapes: options.fixEscapes,
+        smartLists: options.smartLists,
         processFootnotes: options.processFootnotes,
+        preserveUnicode: options.preserveUnicode,
       });
 
-      // Configure marked options
+      // Configure marked.js with the selected options
       const markedOptions = configureMarked({
         smartLists: options.smartLists,
       });
 
-      // Extract title
-      const { title, modifiedMarkdown } = extractTitle(processedMarkdown);
+      // Render to HTML - await the Promise
+      const htmlContent = await renderMarkdown(preprocessed, markedOptions);
 
-      // Normalize markdown spacing for consistent formatting
-      const normalizedMarkdown = normalizeMarkdownSpacing(modifiedMarkdown);
-
-      // Render the markdown (now awaiting the Promise)
-      const renderedHtml = await renderMarkdown(
-        normalizedMarkdown,
-        markedOptions
-      );
-
-      // Switch to report view
-      onGenerateReport(title, renderedHtml);
+      // Generate the report
+      onGenerateReport(title, htmlContent);
     } catch (error) {
-      console.error("Error rendering markdown:", error);
+      console.error("Error processing markdown:", error);
       throw error;
     }
   };
@@ -64,7 +68,7 @@ export default function EditorView({
       </div>
 
       <MarkdownForm
-        onSubmit={handleSubmit}
+        onSubmit={handleMarkdownSubmit}
         sampleDocumentLink={sampleDocumentLink}
       />
 
